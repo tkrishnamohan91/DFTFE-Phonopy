@@ -1,0 +1,6 @@
+Phonopy Steps
+
+1. phonopy -d --dim='5 5 5'
+2. 1 displacement POSCAR-* created
+
+Use dftfe-phonopy script for converting POSCAR-* to DFT-FE inputs

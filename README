@@ -1,0 +1,5 @@
+REQUIREMENTS
+pip install phonopy==2.33.2
+
+USAGE
+
