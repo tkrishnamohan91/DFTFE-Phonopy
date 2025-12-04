@@ -4,3 +4,9 @@ Phonopy Steps
 2. 1 displacement POSCAR-* created
 
 Use dftfe-phonopy script for converting POSCAR-* to DFT-FE inputs
+
+Run DFT-FE to get forces.txt in each POSCAR-* folder
+
+Use dftfe-phonopy script for converting forces.txt data into FORCE_SETS
+
+phonopy -p mesh.conf

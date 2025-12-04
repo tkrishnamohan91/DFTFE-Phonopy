@@ -265,18 +265,35 @@ def write_FORCE_SETS_type1(
     natoms: int
 ):
     """
-    Write Phonopy FORCE_SETS (type 1).
-    entries: list of (atom_index, displacement_cart[3], forces[N,3] in eV/Å).
-    natoms: total number of atoms in supercell.
+    Correct Phonopy Type-1 FORCE_SETS format.
+    Format (per official Phonopy documentation):
+
+        line 1: natoms
+        line 2: ndisplacements
+
+        For each displacement:
+            <displaced_atom_index 1-based>
+            <dx dy dz>    # Cartesian displacement (Å)
+            <Fx Fy Fz>    # forces on atom 1
+            ...
+            <Fx Fy Fz>    # forces on atom natoms
     """
+
     with open(out_path, "w") as f:
-        f.write("1\n")  # format version
-        f.write(f"{natoms} {len(entries)}\n")
+        # Header: natoms and number of displaced structures
+        f.write(f"{natoms}\n")
+        f.write(f"{len(entries)}\n")
+
+        # Displacement blocks
         for (idx0, dcart, forces) in entries:
-            f.write(f"{idx0 + 1}\n")  # 1-based index
+            f.write("\n")  # Optional blank line allowed by Phonopy parser
+            # Displaced atom index (1-based)
+            f.write(f"{idx0 + 1}\n")
+            # Cartesian displacement vector
             f.write("{:20.16f} {:20.16f} {:20.16f}\n".format(*dcart))
-            for row in forces:
-                f.write("{:20.16f} {:20.16f} {:20.16f}\n".format(*row))
+            # Forces on all atoms in order
+            for Fx, Fy, Fz in forces:
+                f.write("{:20.16f} {:20.16f} {:20.16f}\n".format(Fx, Fy, Fz))
 
 # ----------------- Forces Reader -----------------
 

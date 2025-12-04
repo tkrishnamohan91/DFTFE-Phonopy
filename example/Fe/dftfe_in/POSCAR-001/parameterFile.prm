@@ -1,0 +1,55 @@
+set VERBOSITY = 4
+
+subsection Geometry
+  set NATOMS=250
+  set NATOM TYPES=1
+  set ATOMIC COORDINATES FILE      = coordinates.inp
+  set DOMAIN VECTORS FILE = domainBoundingVectors.inp
+  subsection Optimization
+    set CELL STRESS              = true
+    set ION FORCE                = true 
+  end
+end
+
+
+subsection Boundary conditions
+  set PERIODIC1                       = true
+  set PERIODIC2                       = true
+  set PERIODIC3                       = true
+end
+
+subsection Finite element mesh parameters
+  set POLYNOMIAL ORDER=6
+  subsection Auto mesh generation parameters
+    set MESH SIZE AROUND ATOM  = 1.0
+    set ATOM BALL RADIUS = 8
+  end
+end
+
+subsection Parallelization
+  set BAND PARAL OPT           = true
+  set MPI ALLREDUCE BLOCK SIZE = 100.0
+  set NPBAND                   = 2
+  set NPKPT                    = 1
+end
+
+subsection DFT functional parameters
+  set EXCHANGE CORRELATION TYPE   = GGA-PBE
+  set PSEUDOPOTENTIAL CALCULATION = true
+  set PSEUDOPOTENTIAL FILE NAMES LIST = pseudo.inp
+  set SPIN POLARIZATION = 1
+  set START MAGNETIZATION = -0.125
+end
+
+subsection SCF parameters
+  set TEMPERATURE                      = 500
+  set TOLERANCE                        = 5e-6
+  set MIXING METHOD = ANDERSON_WITH_KERKER
+  set MIXING PARAMETER = 0.1
+  set MIXING HISTORY = 25
+  subsection Eigen-solver parameters
+      set WFC BLOCK SIZE = 400
+      set CHEBY WFC BLOCK SIZE = 400 
+      set NUMBER OF KOHN-SHAM WAVEFUNCTIONS = 2400
+  end
+end
